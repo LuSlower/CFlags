@@ -278,9 +278,27 @@ $form.Add_KeyDown({
     }
 })
 
+$form.Add_Paint({
+    param (
+        [object]$sender,
+        [System.Windows.Forms.PaintEventArgs]$e
+    )
+    $rect = New-Object System.Drawing.Rectangle(0, 0, $sender.Width, $sender.Height)
+    $brush = New-Object System.Drawing.Drawing2D.LinearGradientBrush(
+        $rect,
+        [System.Drawing.Color]::FromArgb(44, 44, 44),   # Color negro
+        [System.Drawing.Color]::FromArgb(99, 99, 99),# Color gris oscuro
+        [System.Drawing.Drawing2D.LinearGradientMode]::Vertical
+    )
+    $e.Graphics.FillRectangle($brush, $rect)
+})
+
 $listBoxProcesses = New-Object System.Windows.Forms.ListBox
 $listBoxProcesses.Location = New-Object System.Drawing.Point(10, 20)
 $listBoxProcesses.Size = New-Object System.Drawing.Size(150, 270)
+$listBoxProcesses.BorderStyle = [System.Windows.Forms.BorderStyle]::FixedSingle
+$listBoxProcesses.BackColor = [System.Drawing.Color]::FromArgb(44, 44, 44)
+$listBoxProcesses.ForeColor = [System.Drawing.Color]::White
 $form.Controls.Add($listBoxProcesses)
 $listBoxProcesses.add_SelectedIndexChanged({
     # Obtener el proceso seleccionado
@@ -294,6 +312,10 @@ $btnDel = New-Object System.Windows.Forms.Button
 $btnDel.Location = New-Object System.Drawing.Point(20, 290)
 $btnDel.Size = New-Object System.Drawing.Size(55, 20)
 $btnDel.Text = "Delete"
+$btnDel.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnDel.BackColor = [System.Drawing.Color]::FromArgb(44, 44, 44)
+$btnDel.ForeColor = [System.Drawing.Color]::White
+$btnDel.FlatAppearance.BorderSize = 0
 $form.Controls.Add($btnDel)
 $btnDel.Add_Click({
     $keys = (Get-ItemProperty -Path $cfPath | Select-Object * -ExcludeProperty PS*).PSObject.Properties
@@ -318,6 +340,10 @@ $btnReg = New-Object System.Windows.Forms.Button
 $btnReg.Location = New-Object System.Drawing.Point(100, 290)
 $btnReg.Size = New-Object System.Drawing.Size(55, 20)
 $btnReg.Text = "Register"
+$btnReg.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$btnReg.BackColor = [System.Drawing.Color]::FromArgb(44, 44, 44)
+$btnReg.ForeColor = [System.Drawing.Color]::White
+$btnReg.FlatAppearance.BorderSize = 0
 $form.Controls.Add($btnReg)
 $btnReg.Add_Click({
     $openFileDialog = New-Object System.Windows.Forms.OpenFileDialog
@@ -370,6 +396,8 @@ foreach ($flag in $flags) {
     $checkbox.Text = $flag.Abbreviation
     $checkbox.Location = New-Object System.Drawing.Point($currentX, $currentY)
     $checkbox.Size = New-Object System.Drawing.Size(85, 20)  # Ajustar el tamaño del CheckBox
+    $checkbox.BackColor = [System.Drawing.Color]::Transparent
+    $checkbox.ForeColor = [System.Drawing.Color]::White
     $form.Controls.Add($checkbox)
 
     $checkboxesFlags += [PSCustomObject]@{ CheckBox = $checkbox; Option = $flag }
@@ -394,6 +422,10 @@ $buttonSave = New-Object System.Windows.Forms.Button
 $buttonSave.Location = New-Object System.Drawing.Point(810, 290)
 $buttonSave.Size = New-Object System.Drawing.Size(60, 20)
 $buttonSave.Text = "Save"
+$buttonSave.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$buttonSave.BackColor = [System.Drawing.Color]::FromArgb(44, 44, 44)
+$buttonSave.ForeColor = [System.Drawing.Color]::White
+$buttonSave.FlatAppearance.BorderSize = 0
 $form.Controls.Add($buttonSave)
 
 # aplicar todos los cambios
